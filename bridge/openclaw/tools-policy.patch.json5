@@ -1,0 +1,13 @@
+// Atlas relay tool lockdown: the agent may use ONLY the atlas_ask MCP tool.
+// A strict allow-list removes every built-in tool (web_search, web_fetch,
+// exec, process/shell, memory_search, browser), which both makes the small
+// qwen3:8b model reliably relay AND enforces the security boundary (no shell,
+// no web, no file access) for the Telegram-reachable agent.
+// MCP tools are namespaced "<server>__<tool>", so the id is atlas__atlas_ask.
+// Applied with: openclaw config patch --file openclaw/tools-policy.patch.json5
+{
+  tools: {
+    allow: ["atlas__atlas_ask"],
+    deny: ["web_search", "web_fetch", "exec", "process", "browser"]
+  }
+}

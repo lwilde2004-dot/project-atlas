@@ -1,0 +1,22 @@
+// Atlas: register local Ollama (qwen3:8b) as an OpenClaw model provider.
+// Native Ollama API — NOT /v1 (that breaks OpenClaw tool calling).
+// Applied with: openclaw config patch --file openclaw/ollama-provider.patch.json5
+{
+  models: {
+    providers: {
+      ollama: {
+        baseUrl: "http://127.0.0.1:11434",
+        apiKey: "ollama-local",
+        models: [
+          {
+            id: "qwen3:8b",
+            name: "qwen3:8b",
+            api: "ollama",
+            input: ["text"],
+            params: { keep_alive: "30m" }
+          }
+        ]
+      }
+    }
+  }
+}
