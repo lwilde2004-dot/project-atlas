@@ -46,6 +46,17 @@ The vault is organised by academic year and module, each module holding raw sour
 
 Python for conversion, queue processing and briefing generation. PowerShell for the scheduled task wrappers. Windows Task Scheduler for orchestration. Ollama running a local model for indexing and retrieval, so the material never leaves the machine. Git for version control and history.
 
+## What comes out of it
+
+A lecture that goes in as a slide deck comes out as, in the vault:
+
+- a **wiki article** in the module's folder, written in full sentences and cross-linked to related topics
+- a set of **practice questions** with worked answers, since recognition is not recall
+- an entry in the **retrieval index**, so the material is searchable by meaning rather than filename
+- a line in the next **morning briefing**, flagging it as new and unrevised
+
+The article is the part that matters. A slide deck is a set of prompts for a person who was in the room; six weeks later it is close to useless on its own. Rewriting it into prose while the lecture is recent is the step that makes revision possible at all, and it is the step nobody has time to do by hand for every lecture.
+
 ## Why it is built this way
 
 **Everything is a markdown file.** The whole system stays inspectable with a text editor and survives every tool in it being replaced. If the automation stopped tomorrow, I would still have a usable set of notes.
