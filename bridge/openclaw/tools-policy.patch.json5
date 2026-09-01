@@ -1,13 +1,30 @@
-// Atlas relay tool lockdown: the agent may use ONLY the atlas_ask MCP tool.
+// Atlas relay tool policy: the agent may use ONLY the four Atlas MCP tools.
+//
 // A strict allow-list removes every built-in tool (web_search, web_fetch,
-// exec, process/shell, memory_search, browser), which both makes the small
-// qwen3:8b model reliably relay AND enforces the security boundary (no shell,
-// no web, no file access) for the Telegram-reachable agent.
-// MCP tools are namespaced "<server>__<tool>", so the id is atlas__atlas_ask.
+// exec, process/shell, memory_search, browser). That keeps the small local
+// qwen3:8b model on rails AND enforces the security boundary — no shell, no
+// web, no file access — for an agent reachable from Telegram.
+//
+// MCP tools are namespaced "<server>__<tool>".
+//
+// Scope note: atlas_ask is read-only. The other three have side effects —
+// atlas_research spawns a background run that writes into the vault,
+// atlas_sync_vault commits and pushes it. They are safe to expose here
+// because capabilities.py launches only names in its fixed registry, always
+// with an argument list and never through a shell, and because the Telegram
+// listener only accepts messages from TELEGRAM_ALLOWED_ID. The blast radius
+// of a hostile message is therefore "a research run I did not ask for",
+// not code execution.
+//
 // Applied with: openclaw config patch --file openclaw/tools-policy.patch.json5
 {
   tools: {
-    allow: ["atlas__atlas_ask"],
+    allow: [
+      "atlas__atlas_ask",
+      "atlas__atlas_research",
+      "atlas__atlas_capability_status",
+      "atlas__atlas_sync_vault"
+    ],
     deny: ["web_search", "web_fetch", "exec", "process", "browser"]
   }
 }
